@@ -17,7 +17,7 @@ import HelloWorld from "./components/HelloWorld.vue";
       <HelloWorld msg="Sorteio 5x5" />
 
       <nav>
-        <RouterLink to="/WithPatent">com patente</RouterLink>
+        <RouterLink to="/">com patente</RouterLink>
         <RouterLink to="/WithoutPatent">sem patente</RouterLink>
       </nav>
     </div>
