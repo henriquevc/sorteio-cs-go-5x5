@@ -1,8 +1,9 @@
 <script setup>
 import { ref } from "vue";
-const arrayWithPatentMM = ref([]);
-const arrayWithPatentGC = ref([]);
 
+const arraySorted = ref([]);
+const patentsGC = ref([]);
+const typePlataform = ref("mm");
 const patentsMM = ref([
   { name: "Prata 1", value: 1 },
   { name: "Prata 2", value: 2 },
@@ -24,12 +25,12 @@ const patentsMM = ref([
   { name: "Global", value: 18 },
 ]);
 
+// patentes gc
 for (let i = 1; i <= 20; i++) {
-  arrayWithPatentGC.value.push(i);
+  patentsGC.value.push({ name: `Level ${i}`, value: i });
 }
 
 const playersWithPatents = ref([]);
-
 for (let i = 0; i < 10; i++) {
   playersWithPatents.value.push({
     name: "",
@@ -39,40 +40,51 @@ for (let i = 0; i < 10; i++) {
 
 const team1 = ref([]);
 const team2 = ref([]);
-
 const sortear = () => {
-  arrayWithPatentMM.value = [];
+  arraySorted.value = [];
   team1.value = [];
   team2.value = [];
   playersWithPatents.value.forEach((player) => {
-    arrayWithPatentMM.value.push(player);
+    arraySorted.value.push(player);
   });
 
-  arrayWithPatentMM.value = arrayWithPatentMM.value.sort(
-    (a, b) => b.patent - a.patent
-  );
+  arraySorted.value = arraySorted.value.sort((a, b) => b.patent - a.patent);
 
-  team1.value.push(arrayWithPatentMM.value[0]);
-  team1.value.push(arrayWithPatentMM.value[2]);
-  team1.value.push(arrayWithPatentMM.value[4]);
-  team1.value.push(arrayWithPatentMM.value[7]);
-  team1.value.push(arrayWithPatentMM.value[9]);
+  team1.value.push(arraySorted.value[0]); // primeiro melhor
+  team1.value.push(arraySorted.value[2]); // terceiro melhor
+  team1.value.push(arraySorted.value[4]); // quinto melhor
+  team1.value.push(arraySorted.value[7]); // oitavo melhor
+  team1.value.push(arraySorted.value[9]); // ultimo melhor
 
-  team2.value.push(arrayWithPatentMM.value[1]);
-  team2.value.push(arrayWithPatentMM.value[3]);
-  team2.value.push(arrayWithPatentMM.value[5]);
-  team2.value.push(arrayWithPatentMM.value[6]);
-  team2.value.push(arrayWithPatentMM.value[8]);
+  team2.value.push(arraySorted.value[1]); // segundo melhor
+  team2.value.push(arraySorted.value[3]); // terceiro melhor
+  team2.value.push(arraySorted.value[5]); // quarto melhor
+  team2.value.push(arraySorted.value[6]); // quinto melhor
+  team2.value.push(arraySorted.value[8]); // sexto melhor
 };
 </script>
 
 <template>
   <main>
     <div class="my-md">
-      <input type="radio" id="gc" name="tipoCamp" value="GC">
-      <label for="html">GC</label><br>
-      <input type="radio" id="mm" name="tipoCamp" value="MM">
-      <label for="css">MM</label><br>
+      <input
+        type="radio"
+        id="mm"
+        class="input radio"
+        name="tipoCamp"
+        value="mm"
+        v-model="typePlataform"
+      />
+      <label for="mm">MM</label>
+      <input
+        type="radio"
+        id="gc"
+        name="tipoCamp"
+        class="input radio"
+        value="gc"
+        v-model="typePlataform"
+      />
+      <label for="gc">GC</label>
     </div>
     <div>
       <div
@@ -89,15 +101,33 @@ const sortear = () => {
         />
         <select
           v-model="player.patent"
+          v-if="typePlataform === 'mm'"
           class="select input"
           placeholder="Escolha a patente"
         >
+          <option value="" disabled selected>Escolha a patente</option>
           <option
             class="option"
             v-for="patent in patentsMM"
             :key="patent.value"
             :value="patent.value"
             :selected="patent.selected"
+          >
+            {{ patent.name }}
+          </option>
+        </select>
+        <select
+          v-model="player.patent"
+          v-if="typePlataform === 'gc'"
+          class="select input"
+          placeholder="Escolha a patente"
+        >
+          <option value="" disabled selected>Escolha a patente</option>
+          <option
+            class="option"
+            v-for="patent in patentsGC"
+            :key="patent.value"
+            :value="patent.value"
           >
             {{ patent.name }}
           </option>
@@ -115,7 +145,11 @@ const sortear = () => {
         <h2 class="mb-sm">Time 1</h2>
         <div v-for="item in team1" :key="item" class="mb-sm">
           {{ item.name }} -
-          {{ patentsMM.find((p) => p.value === item.patent).name }}
+          {{
+            typePlataform === "mm"
+              ? patentsMM.find((p) => p.value === item.patent).name
+              : patentsGC.find((p) => p.value === item.patent).name
+          }}
         </div>
         <div v-if="team1 && team1.length">
           Soma:
@@ -128,7 +162,11 @@ const sortear = () => {
         <h2 class="mb-sm">Time 2</h2>
         <div v-for="item in team2" :key="item" class="mb-sm">
           {{ item.name }} -
-          {{ patentsMM.find((p) => p.value === item.patent).name }}
+          {{
+            typePlataform === "mm"
+              ? patentsMM.find((p) => p.value === item.patent).name
+              : patentsGC.find((p) => p.value === item.patent).name
+          }}
         </div>
         <div v-if="team2 && team2.length">
           Soma:
@@ -220,6 +258,12 @@ main {
   font-size: 1.1rem;
 }
 
+.input + label {
+  font-size: 1.2rem;
+  margin-right: 36px;
+  margin-left: 8px;
+}
+
 .select {
   border-style: none;
   padding: 1rem 0.5rem;
@@ -229,7 +273,7 @@ main {
 }
 
 .select .option {
-  font-size: 1.1rem;
-  padding: 1rem 0;
+  font-size: 1.15rem;
+  padding: 2rem 0;
 }
 </style>
