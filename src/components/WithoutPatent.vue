@@ -10,7 +10,9 @@ const sortear = () => {
   team1.value = [];
   team2.value = [];
 
-  arr.value = names.value.split("\n");
+  arr.value = names.value.split("\n").filter((value) => value.trim());
+
+  console.log(arr.value);
 
   arr.value = arr.value.sort((a, b) =>
     Math.random() >= 0.5 ? a.localeCompare(b) : b.localeCompare(a)
