@@ -12,8 +12,6 @@ const sortear = () => {
 
   arr.value = names.value.split("\n").filter((value) => value.trim());
 
-  console.log(arr.value);
-
   arr.value = arr.value.sort((a, b) =>
     Math.random() >= 0.5 ? a.localeCompare(b) : b.localeCompare(a)
   );
@@ -38,9 +36,8 @@ const sortear = () => {
       <h1 class="my-md">Sortear sem patente</h1>
       <textarea
         v-model="names"
-        cols="40"
         rows="10"
-        class="textarea"
+        class="textarea w-full"
         placeholder="Nomes"
       ></textarea>
       <div class="my-md">
@@ -71,6 +68,10 @@ const sortear = () => {
 
 .w-50 {
   width: 50%;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .mb-md {
