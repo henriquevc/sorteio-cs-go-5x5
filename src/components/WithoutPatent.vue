@@ -12,8 +12,6 @@ const sortear = () => {
 
   arr.value = names.value.split("\n").filter((value) => value.trim());
 
-  console.log(arr.value);
-
   arr.value = arr.value.sort((a, b) =>
     Math.random() >= 0.5 ? a.localeCompare(b) : b.localeCompare(a)
   );
@@ -34,27 +32,27 @@ const sortear = () => {
 
 <template>
   <main>
-    <div class="about">
-      <h1 class="my-md">Sortear sem patente</h1>
+    <div class="about flex justify-center wrap">
+      <h1 class="my-md w-full">Sortear sem patente</h1>
       <textarea
         v-model="names"
         cols="40"
         rows="10"
-        class="textarea"
+        class="textarea w-full"
         placeholder="Nomes"
       ></textarea>
-      <div class="my-md">
+      <div class="my-md w-full flex justify-center">
         <button class="button" @click="sortear">Sortear</button>
       </div>
-      <div class="flex">
-        <div class="w-50">
-          <h2>Time 1</h2>
+      <div class="flex w-full gap">
+        <div class="w-50 border p-md">
+          <h2 class="">Time 1</h2>
           <div v-for="item in team1" :key="item" class="mb-sm">
             {{ item }}
           </div>
         </div>
-        <div class="w-50">
-          <h2>Time 2</h2>
+        <div class="w-50 border p-md">
+          <h2 class="">Time 2</h2>
           <div v-for="item in team2" :key="item" class="mb-sm">
             {{ item }}
           </div>
@@ -69,6 +67,37 @@ const sortear = () => {
   display: flex;
 }
 
+.gap {
+  gap: 1rem;
+}
+
+.p-sm {
+  padding: 0.5rem;
+}
+
+.p-md {
+  padding: 1rem;
+}
+
+.border {
+  border: 1px solid var(--color-border);
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
 .w-50 {
   width: 50%;
 }
@@ -84,6 +113,10 @@ const sortear = () => {
 
 .mb-sm {
   margin-bottom: 1rem;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .textarea {
