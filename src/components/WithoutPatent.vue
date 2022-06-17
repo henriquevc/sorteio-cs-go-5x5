@@ -36,7 +36,6 @@ const sortear = () => {
       <h1 class="my-md w-full">Sortear sem patente</h1>
       <textarea
         v-model="names"
-        cols="40"
         rows="10"
         class="textarea w-full"
         placeholder="Nomes"
@@ -100,6 +99,10 @@ const sortear = () => {
 }
 .w-50 {
   width: 50%;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .mb-md {
